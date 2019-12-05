@@ -1,3 +1,8 @@
+*.log
+*.log.*
+config.py
+*.pth
+.idea/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
