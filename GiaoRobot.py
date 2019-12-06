@@ -20,15 +20,18 @@ def main():
     storage = Storage(config.SinaSCSAccessKey, config.SinaSCSSecretKey, config.SinaSCSBucketName,
                       config.SinaSCSBucketUrl)
 
+    regionX = config.MonitorRegion['x']
+    regionY = config.MonitorRegion['y']
+    regionW = config.MonitorRegion['w']
+    regionH = config.MonitorRegion['h']
+
     while (cap.isOpened()):
         try:
             ret, img = cap.read()
             if ret == True:
-                # img = img[config.MonitorRegion]
-                imgRegion = img[185:305, 270:490]
+                imgRegion = img[regionY:regionY + regionH, regionX:regionX + regionW]
                 diff = camera.detectDiff(imgRegion)
-                if diff < 150:
-                    log.info("different < 150")
+                if diff < config.MonitorDiffThreshold:
                     time.sleep(0.2)
                     continue
                 bboxes = camera.detectFaces(imgRegion)
@@ -45,7 +48,7 @@ def main():
         except Exception as e:
             log.error("error: %s", e)
 
-        time.sleep(0.5)
+        # time.sleep(0.5)
 
     cap.release()
 

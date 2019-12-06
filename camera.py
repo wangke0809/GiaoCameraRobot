@@ -29,7 +29,7 @@ class Camera(object):
         else:
             self.lastImg = binary_img / 255
 
-        log.info("diff: %d, using %.6f sec" % (diff, time.time() - tStart))
+        log.info("diff: %6d, using %.6f sec" % (diff, time.time() - tStart))
 
         return diff
 
