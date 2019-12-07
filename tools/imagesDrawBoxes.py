@@ -1,5 +1,5 @@
 import cv2
-import sys
+import sys, os
 
 sys.path.append('..')
 import config
@@ -16,6 +16,12 @@ regionH = config.MonitorRegion['h']
 
 imagesPath = '../images'
 imagesWithBox = './imagesWithBox'
+
+try:
+    os.mkdir(imagesWithBox)
+except:
+    pass
+
 pngList = glob.glob(imagesPath + '/*.png')
 savedList = glob.glob(imagesWithBox + '/*.png')
 savedListSet = set()
