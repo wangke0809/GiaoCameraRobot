@@ -1,10 +1,16 @@
 import cv2
 import tkinter as tk
 import json, glob
-import os
+import os, sys
+sys.path.append('..')
+import config
 
-person = {0: 'wk', 1: 'dln', 2: 'kml', 3: 'zsy', 4: 'hh', 5: 'wly', 6: 'lch', 7: 'wzh', 8: 'ys'}
 
+person = config.PersonNames
+
+index = 0
+
+l = [0] * 12
 
 def main():
     window = tk.Tk()
@@ -33,10 +39,6 @@ def main():
     if len(needHandleList) == 0:
         exit(0)
 
-    index = 0
-
-    l = [0] * 12
-
     img = cv2.imread(imagesWithBox + '/' + needHandleList[index])
     cv2.imshow('Image', img)
 
@@ -53,14 +55,14 @@ def main():
                 content.set(" " * 100)
                 content.set("Finished!")
                 return
-            if l[0] == 0 and l[1] == 0 and l[2] == 0:
-                return
+            # if l[0] == 0 and l[1] == 0 and l[2] == 0:
+            #     return
             mark = False
             for i in l[3:]:
                 if i == 1:
                     mark = True
-            if not mark:
-                return
+            # if not mark:
+            #     return
             labels[needHandleList[index].replace('.png', '')] = l
             with open(labelsJson, 'w') as file:
                 json.dump(labels, file)

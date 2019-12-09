@@ -76,6 +76,8 @@ except:
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+net = net.to(device)
+
 trainDataPath = './imagesWithBox'
 allTrainDataList = glob.glob(trainDataPath + '/*.png')
 

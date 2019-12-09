@@ -5,6 +5,7 @@ from logger import Logger
 from push import Push
 from storage import Storage
 from camera import Camera
+from utils import draw_bboxes
 
 log = Logger.getLogger("Giao")
 
@@ -34,9 +35,28 @@ def main():
                 if diff < config.MonitorDiffThreshold:
                     time.sleep(0.2)
                     continue
-                bboxes = camera.detectFaces(imgRegion)
-                log.info("bboxes len %d", len(bboxes))
-                if len(bboxes) > 0 and (time.time() - last_send_time) > 30:
+                faceNum, predType, predName = camera.detectFaces(imgRegion)
+                log.info("faceNum: %d", faceNum)
+                if faceNum > 0:
+                    if predType[1]:
+                        typeStr = '确定'
+                    else:
+                        typeStr = '可能'
+                    if predType[0] == 0:
+                        typeStr += '进入'
+                    elif predType[0] == 1:
+                        typeStr += '离开'
+                    else:
+                        typeStr += '站起来了'
+                    if predName[1]:
+                        nameStr = '确定是'
+                    else:
+                        nameStr = '可能是'
+                    nameStr += config.PersonNames[predName[0]]
+                    content = nameStr + '，' + typeStr
+                    log.info('push content %s', content)
+
+                if faceNum > 0 and (time.time() - last_send_time) > 30:
                     last_send_time = time.time()
                     saveName = str(time.strftime('images/%Y%m%d_%H_%M_%S.png'))
                     cv2.imwrite(saveName, img)
@@ -44,7 +64,7 @@ def main():
                     cv2.imwrite(saveName, img)
                     url = storage.saveImage(saveName)
                     log.info("send giao! %s" % url)
-                    push.sendImage(config.PushTitle, url)
+                    push.sendImage(config.PushTitle, content, url)
         except Exception as e:
             log.error("error: %s", e)
 

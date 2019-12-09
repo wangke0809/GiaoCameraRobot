@@ -7,8 +7,8 @@ class Push(object):
         self.d = DingtalkChatbot(
             'https://oapi.dingtalk.com/robot/send?access_token=%s' % token)
 
-    def sendImage(self, title, url, is_at_all=False):
-        self.d.send_markdown(title=title, text='Giao, Giao, Giao!\n![Giao](' + url + ')\n', is_at_all=is_at_all)
+    def sendImage(self, title, content, url, is_at_all=False):
+        self.d.send_markdown(title=title, text=content + '\n![Giao](' + url + ')\n', is_at_all=is_at_all)
 
     def sendMessage(self, msg, is_at_all=False):
         self.d.send_text(msg=msg, is_at_all=is_at_all)

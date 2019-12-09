@@ -6,16 +6,24 @@ import cv2
 import numpy as np
 from model import ResNet50
 import json
-from getTrainDataSet import person
+import os, sys
+
+sys.path.append('..')
+import config
+
+person = config.PersonNames
 
 OUT_DIM = 12
 
 resnet = models.resnet50()
 resnet.load_state_dict(torch.load('./resnet50-19c8e357.pth'))
 
-net = ResNet50(resnet, OUT_DIM)
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-net.load_state_dict(torch.load('models/latestModel.pth'))
+net = ResNet50(resnet, OUT_DIM)
+net = net.to(device)
+
+net.load_state_dict(torch.load('models/latestModel.pth', map_location=torch.device(device)))
 
 trainDataPath = './imagesWithBox'
 allTrainDataList = glob.glob(trainDataPath + '/*.png')
@@ -44,12 +52,21 @@ for path in allTrainDataList:
     imgO = cv2.imread(path)
     img = cv2.cvtColor(imgO, cv2.COLOR_BGR2RGB)
     img = transform(img).unsqueeze_(0)
+    img = img.to(device)
     t1 = time.time()
     predLabel = net(img)
     gtLable = labels[name]
     print('use %.4f' % (time.time() - t1))
     predictions = predLabel.data.cpu().numpy()[0]
-    idx_list = np.where(predictions > np.percentile(predictions, 90))[0]
+    predType = predictions[0:3]
+    predTypeId = np.where(predType > np.percentile(predType, 90))[0][0]
+    print(predType, predTypeId)
+    predNames = predictions[3:]
+    predNamesId = np.where(predNames > np.percentile(predNames, 90))[0][0]
+    print(predNames, predNamesId)
+    # idx_list = [predTypeId, predNamesId + 3]
+    idx_list = [predTypeId, predNamesId + 3]
+
     # print(gtLable)
     gtStr = 'GT '
     for i in range(len(gtLable)):
@@ -64,9 +81,9 @@ for path in allTrainDataList:
         predStr += ' '
     print(predStr)
     imgO = cv2.putText(imgO, gtStr, (10, 20), cv2.FONT_HERSHEY_SIMPLEX,
-                      0.7, (0, 0, 0), 1, cv2.LINE_AA)
+                       0.7, (0, 0, 0), 1, cv2.LINE_AA)
     imgO = cv2.putText(imgO, predStr, (10, 50), cv2.FONT_HERSHEY_SIMPLEX,
                        0.7, (0, 0, 0), 1, cv2.LINE_AA)
     cv2.imshow("image", imgO)
     cv2.waitKey(0)
-
+    # break

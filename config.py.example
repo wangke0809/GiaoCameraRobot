@@ -3,7 +3,10 @@ dingTalkWebhookAccessToken = 'xxx'
 
 # the region size need to monitor
 # [x, y, w, h]
-MonitorRegion = [-1, -1, -1, -1]
+MonitorRegion = {'x': 270, 'y': 185, 'w': 220, 'h': 120}
+
+# diff threshold
+MonitorDiffThreshold = 300
 
 # TinyFace model path
 TinyFaceModelPath = './checkpoint_50.pth'
@@ -11,13 +14,15 @@ TinyFaceModelPath = './checkpoint_50.pth'
 TinyFaceModelDevice = 'cpu'
 
 # Sina SCS access key, secret key and bucket name
-SinaSCSAccessKey = 'xxx'
-SinaSCSSecretKey = 'xxx'
-SinaSCSBucketName = 'xxx'
-SinaSCSBucketUrl = 'http://xxx.xxx/xxx/%s'
+SinaSCSAccessKey = 'xx'
+SinaSCSSecretKey = 'xx'
+SinaSCSBucketName = 'xx'
+SinaSCSBucketUrl = 'http://abc.com/%s'
 
 # push title
 PushTitle = '[进入预警]'
+
+PersonNames = {0: 'xx', 1: 'xx', 2: 'xxx', 3: 'xxxx', 4: 'asd', 5: 'asd', 6: '2sda', 7: 'xa', 8: 'sad'}
 
 # Logger config json text
 LoggerJsonConfig = '''{
@@ -25,7 +30,7 @@ LoggerJsonConfig = '''{
     "disable_existing_loggers":false,
     "formatters":{
         "simple":{
-            "format":"[%(asctime)s][%(funcName)-15s:%(lineno)-4s] - %(name)-10s - %(levelname)-5s : %(message)s"
+            "format":"[%(asctime)s][%(funcName)-15s:%(lineno)-4s] - %(name)-15s - %(levelname)-5s : %(message)s"
         }
     },
     "handlers":{
