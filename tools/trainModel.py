@@ -12,14 +12,14 @@ from model import ResNet50
 import sys, shutil, json
 
 sys.path.append('..')
-import logger
+import logger, config
 
 log = logger.Logger.getLogger('train')
 
 # https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py
 
 # [come in, come out, stay, person1~9]
-OUT_DIM = 12
+OUT_DIM = 3 + len(config.PersonNames)
 BATCH_SIZE = 1
 NUM_EPOCHS = 20
 PERCENTILE = 0

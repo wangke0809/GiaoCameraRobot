@@ -92,13 +92,13 @@ def main():
                 needHandleList[index].replace('.png', '') + " " + str(l) + '%d left' % (len(needHandleList) - index))
 
 
-    b = tk.Button(window, text='come in', font=('Arial', 12), width=10, height=2, command=lambda: onClick('come in'))
+    b = tk.Button(window, text='In', font=('Arial', 12), width=10, height=2, command=lambda: onClick('come in'))
     b.pack()
-    b = tk.Button(window, text='come out', font=('Arial', 12), width=10, height=2, command=lambda: onClick('come out'))
+    b = tk.Button(window, text='Out', font=('Arial', 12), width=10, height=2, command=lambda: onClick('come out'))
     b.pack()
-    b = tk.Button(window, text='stay', font=('Arial', 12), width=10, height=2, command=lambda: onClick('stay'))
+    b = tk.Button(window, text='Stay', font=('Arial', 12), width=10, height=2, command=lambda: onClick('stay'))
     b.pack()
-    b = tk.Button(window, text='save', font=('Arial', 12), width=10, height=2, command=lambda: onClick('save'))
+    b = tk.Button(window, text='Save', font=('Arial', 12), width=10, height=2, command=lambda: onClick('save'))
     b.pack()
     for p in person:
         b = tk.Button(window, text=person[p], font=('Arial', 12), width=10, height=2, command=lambda p=p: onClick(p))

@@ -13,7 +13,7 @@ import config
 
 person = config.PersonNames
 
-OUT_DIM = 12
+OUT_DIM = 3 + len(person)
 
 resnet = models.resnet50()
 resnet.load_state_dict(torch.load('./resnet50-19c8e357.pth'))
