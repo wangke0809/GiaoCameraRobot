@@ -94,3 +94,7 @@ python getTrainDataSet.py
 cd tools
 python trainModel.py
 ```   
+
+## Related Projects
+
+- [face-detection-pytorch](https://github.com/cs-giung/face-detection-pytorch)
